@@ -1,0 +1,57 @@
+server:
+  address: "tcp://0.0.0.0:9091"
+
+log:
+  level: debug
+theme: light
+
+jwt_secret: "demo_jwt_secret_change_me_abcdefghijklmnopqrstuvwxyz_1234567890"
+
+authentication_backend:
+  file:
+    path: /config/users_database.yml
+    # 跑通后再启用哈希：
+    password:
+      algorithm: argon2
+      argon2:
+        variant: argon2id
+
+# ★ 关键：使用可共享的父域 demo.local
+session:
+  secret: "demo_session_secret_change_me_abcdefghijklmnopqrstuvwxyz_1234567890"
+  expiration: "1h"
+  inactivity: "5m"
+  same_site: "lax"
+  cookies:
+    - name: "authelia_session"
+      domain: "demo.local"                       # 父域，覆盖 *.demo.local
+      authelia_url: "https://login.demo.local"   # 与 domain 同一 cookie scope
+      default_redirection_url: "https://whoami.demo.local"
+
+storage:
+  local:
+    path: /config/db.sqlite3
+  encryption_key: "demo_storage_key_change_me_abcdefghijklmnopqrstuvwxyz_123456"
+
+access_control:
+  default_policy: deny
+  rules:
+    - domain: "whoami.demo.local"
+      policy: one_factor
+      resources:
+        - "^/.*$"
+
+totp:
+  disable: true
+
+notifier:
+  filesystem:
+    filename: /config/notification.txt
+
+ntp:
+  address: 'udp://time.windows.com:123'  # 或 'udp://time.cloudflare.com:123' / 'udp://time.google.com:123'
+  version: 4
+  max_desync: '10s'        # 允许更大的时间偏差
+  disable_failure: true     # 记录错误但不退出（更稳）
+  # 如果你现在不方便通 NTP，想彻底跳过：
+  # disable_startup_check: true

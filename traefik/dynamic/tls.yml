@@ -1,0 +1,6 @@
+tls:
+  certificates:
+    - certFile: /certs/login.demo.local.pem
+      keyFile: /certs/login.demo.local-key.pem
+    - certFile: /certs/whoami.demo.local.pem
+      keyFile: /certs/whoami.demo.local-key.pem

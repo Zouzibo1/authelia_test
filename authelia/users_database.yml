@@ -1,0 +1,6 @@
+users:
+  kohaku:
+    displayname: "Kohaku"
+    password: "$argon2id$v=19$m=65536,t=3,p=4$H6qvakaoMLi8xqahIS5Xmg$8BIr66HzO8EVS13DF4hzORKSBMgNjOlUH+4IZfuHxXE"
+    email: kohaku@example.com
+    groups: [admins]
